@@ -3,7 +3,7 @@ version: '3'
 services:
 
   jupyter:
-    image:    jaeo/dxlab-smart-cities
+    build: .
     command:  'pyspark --master local[2] --name "Spark Notebook" '
     environment:
       PYSPARK_DRIVER_PYTHON: jupyter
