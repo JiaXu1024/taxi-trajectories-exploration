@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+
+  jupyter:
+    image:    jaeo/dxlab-smart-cities
+    command:  'pyspark --master local[2] --name "Spark Notebook" '
+    environment:
+      PYSPARK_DRIVER_PYTHON: jupyter
+      PYSPARK_DRIVER_PYTHON_OPTS: "notebook --port=8888 --allow-root --no-browser --NotebookApp.notebook_dir='/root/notebook' --NotebookApp.token='' --NotebookApp.base_url=/ "
+      SPARK_CONF_DIR:   /root/conf
+      SPARK_PUBLIC_DNS: localhost
+    ports:
+      - 4040:4040
+      - 8080:8080
+      - 8888:8888
+    volumes:
+      - .:/root
+    extra_hosts:
+      - "rabbit:17.11.0.3"   
+      - "hub:17.11.0.5"   
+    networks:
+      default: 
+        ipv4_address: 17.11.0.2      
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+       config:
+         - subnet: 17.11.0.0/16        
